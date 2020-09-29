@@ -26,7 +26,13 @@ STATICFILES_DIRS = (
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '+#=bn4d2+f9ung*y-(ku(co^+nmx$=*n5ufv5w4wqm4zn7se%e'
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
+MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = 'diary:diary_list'
+
+# バックアップバッチ用
+BACKUP_PATH = 'backup/'
+NUM_SAVED_BACKUP = 30
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,16 +48,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'diary.apps.DiaryConfig',
     'accounts.apps.AccountsConfig',
 
     'allauth',
     'allauth.account',
-    'django.contrib.sites',
 ]
 
 SITE_ID = 1
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 AUTHENTICATION_BACKENDS = (
     # 一般ユーザー用(メールアドレス認証)
@@ -70,6 +78,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 # ログイン/ログアウト後の遷移先を設定
 LOGIN_REDIRECT_URL = 'diary:index'
+
+
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 # ログアウトリンクのクリック一発でログアウトする設定
