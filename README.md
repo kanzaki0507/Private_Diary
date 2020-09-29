@@ -13,10 +13,28 @@
 * ChromeDriver 85.0.4183.87 (google chromのバージョンに合わせる)
 
 ## DataBaseの設定
-[こちらを参照](https://qiita.com/kanzaki0507/items/12a2ef0b778250d699bd)
+[こちらを参照](https://qiita.com/kanzaki0507/items/12a2ef0b778250d699bd)  
 今回はpostgresql@10を使用したのでインストールするときは@10をつける。
 
     $ pip install postgresql@10
+インストールできたら、PATHを通す。
+
+    $ vi .bash_profile
+vimで.bash_profileを開きDataBaseのPATHを通す。
+
+    export PATH=$PATH:/usr/local/Cellar/postgresql@10/10.14/bin/
+PATHを通したら次はDataBaseを作成する
+
+    $ brew services start postgresql@10
+    $ create private_diary
+「psql -l」コマンドでデータベース一覧を確認する。「private_diary」が存在していれば問題ない。
+
+データベースを作成したら次はMigrationでデータベースとアプリケーションを関連付ける。
+
+    $ python manage.py makemigrations
+    $ python manage.py migrate
+「makemigrations」でMigrateするためのファイルを作成
+「migrate」でマイグレーションを行う。
 
 ## Web Serverを動かす
     $ python manage.py --settings private_diary.settings_dev
