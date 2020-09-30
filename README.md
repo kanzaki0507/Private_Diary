@@ -48,7 +48,7 @@ PATHを通したら次はDataBaseを作成する
 「makemigrations」でMigrateするためのファイルを作成  
 「migrate」でマイグレーションを行う。
 ### Errorが出たら...
-ここでエラーが出た場合、accounts/migrations/ & diary/migrations/ この二つの中の__init__.py以外(0001_init.py or __pycach__.pyなど)を全て削除して
+ここでエラーが出た場合、accounts/migrations/ & diary/migrations/ この二つの中の__init__.py以外(0001_initial.py or __pycach__.pyなど)を全て削除して
 再度migrationする。  
 それでもダメなら、上記のファイルを消した上でDataBaseを削除し、再度DBを構築してMigarationを行う。
 
