@@ -6,11 +6,23 @@
 * Python 3.7
 * Django 2.2.2
 * PostgreSQL 10.14
-* psycopg2-binary 2.8.6
-* pillow 7.2.0
-* django-auth 0.39.1
-* selenium 3.141.0 (テストに使う)
 * ChromeDriver 85.0.4183.87 (google chromのバージョンに合わせる)
+
+## 仮想環境構築
+Pythonで仮想環境を構築する。
+Djangoのモジュールは仮想環境ごとで独立しているため、仮想環境同士の影響を受けることなく開発できる。
+
+    $ python -m venv venv_private_diary
+次に、仮想環境に入る
+
+    $ source venv_private_diary/bin/activate
+    (venv_private_diary)$
+となればOK!
+
+## requirements install
+必要なパッケージをインストールする。
+
+    $ pip install -r requirements.txt
 
 ## DataBaseの設定
 [こちらを参照](https://qiita.com/kanzaki0507/items/12a2ef0b778250d699bd)  
@@ -33,8 +45,12 @@ PATHを通したら次はDataBaseを作成する
 
     $ python manage.py makemigrations
     $ python manage.py migrate
-「makemigrations」でMigrateするためのファイルを作成
+「makemigrations」でMigrateするためのファイルを作成  
 「migrate」でマイグレーションを行う。
+### Errorが出たら...
+ここでエラーが出た場合、accounts/migrations/ & diary/migrations/ この二つの中の__init__.py以外(0001_init.py or __pycach__.pyなど)を全て削除して
+再度migrationする。  
+それでもダメなら、上記のファイルを消した上でDataBaseを削除し、再度DBを構築してMigarationを行う。
 
 ## Web Serverを動かす
     $ python manage.py --settings private_diary.settings_dev

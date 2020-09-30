@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from django.contrib.messages import constants as messages
+from .settings_common import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,10 +30,19 @@ SECRET_KEY = '+#=bn4d2+f9ung*y-(ku(co^+nmx$=*n5ufv5w4wqm4zn7se%e'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# 許可するホスト名リスト
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
 
+# 静的ファイルを配置する場所
+STATIC_ROOT = '/user/share/nginx/html/static'
+MEDIA_ROOT = '/user/share/nginx/html/media'
+
+# Amazon SES関連設定
+AWS_SES_ACCESS_KEY_ID = os.environ.get('AWS_SES_ACCESS_KEY_ID')
+AWS_SES_SELECT_ACCESS_KEY = os.environ.get('AWS_SES_SELECT_ACCESS_KEY')
+EMAIL_BACKEND = 'django_ses.SESBackend'
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,6 +59,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'django.contrib.sites',
+
 ]
 
 SITE_ID = 1
@@ -165,23 +176,32 @@ LOGGING = {
     'version': 1,
     'disable_exiting_loggers': False,
 
-    'Logger': {
+    'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['file'],
+            'level': 'INFO',
+        },
+        # diaryアプリケーションが利用するロガー
+        'diary': {
+            'handlers': ['file'],
             'level': 'INFO',
         },
     },
 
     'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'dev'
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django.log'),
+            'formatter': 'prod',
+            'when': 'D',  # ログローテーション(新しいファイルへの切り替え)間隔の単位(D=日)
+            'interval': 1,  # ログローテーション間隔(1日単位)
+            'backupCount': 7,  # 保存しておくログファイル数
         },
     },
 
     'formatters': {
-        'dev': {
+        'prod': {
             'format': '\t'.join([
                 '%(asctime)s',
                 '[%(levelname)s]',

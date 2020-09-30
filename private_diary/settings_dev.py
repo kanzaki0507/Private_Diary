@@ -3,6 +3,8 @@ from .settings_common import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# SECRET_KEY = '+#=bn4d2+f9ung*y-(ku(co^+nmx$=*n5ufv5w4wqm4zn7se%e'
+
 ALLOWED_HOST = []
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
