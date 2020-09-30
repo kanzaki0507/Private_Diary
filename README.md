@@ -53,4 +53,4 @@ PATHを通したら次はDataBaseを作成する
 それでもダメなら、上記のファイルを消した上でDataBaseを削除し、再度DBを構築してMigarationを行う。
 
 ## Web Serverを動かす
-    $ python manage.py --settings private_diary.settings_dev
+    $ python manage.py runserver --settings private_diary.settings_dev
