@@ -50,7 +50,8 @@ PATHを通したら次はDataBaseを作成する
 ### Errorが出たら...
 ここでエラーが出た場合、accounts/migrations/ & diary/migrations/ この二つの中の__init__.py以外(0001_initial.py or __pycach__.pyなど)を全て削除して
 再度migrationする。  
-それでもダメなら、上記のファイルを消した上でDataBaseを削除し、再度DBを構築してMigarationを行う。
+それでもダメなら、上記のファイルを消した上でDataBaseを削除し、再度DBを構築してMigarationを行う。  
+対処方法は[こちら](https://qiita.com/kanzaki0507/items/df056f20f3c42bae1abf)
 
 ## Web Serverを動かす
     $ python manage.py runserver --settings private_diary.settings_dev
